@@ -64,9 +64,9 @@ class Surge
         }
 
         // Subscription link
-        $subsURL = Helper::getSubscribeUrl("/api/x6/client/musub?set={$user['token']}");
+        $subsURL = Helper::getSubscribeUrl("/api/v1/client/musub?set={$user['token']}");
         $subsDomain = $_SERVER['HTTP_HOST'];
-        $subsURL = 'https://' . $subsDomain . '/api/x6/client/musub?set=' . $user['token'];
+        $subsURL = 'https://' . $subsDomain . '/api/v1/client/musub?set=' . $user['token'];
 
         $config = str_replace('$subs_link', $subsURL, $config);
         $config = str_replace('$subs_domain', $subsDomain, $config);
