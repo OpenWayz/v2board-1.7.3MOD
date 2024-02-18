@@ -24,7 +24,7 @@
                                 <br />
                                 官网及订阅长期使用后可能会被封，导致用户无法登录，请收藏地址发布页，避免付费用户与我们失联无法使用，给您造成损失。
                                 <br />
-                                发布页地址(请收藏)：<a href="https://oteacc.top" style="font-size:14px;color:#333;font-weight:bold;">oteacc.top</a>
+                                发布页地址(请收藏)：<a href="https://oteacc.top" style="font-size:14px;color:#1155cc;font-weight:bold;">oteacc.top</a>
                             </td>
                         </tr>
                         <tr style="padding:40px;display:table-cell">
