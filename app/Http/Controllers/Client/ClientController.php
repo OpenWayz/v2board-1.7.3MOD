@@ -49,11 +49,14 @@ class ClientController extends Controller
         $userService = new UserService();
         $resetDay = $userService->getResetDay($user);
         array_unshift($servers, array_merge($servers[0], [
+            'name' => "网址发布页https://wuhen.org",
+        ]));
+        array_unshift($servers, array_merge($servers[0], [
             'name' => "套餐到期：{$expiredDate}",
         ]));
         if ($resetDay) {
             array_unshift($servers, array_merge($servers[0], [
-                'name' => "距离下次重置剩余：{$resetDay} 天",
+                'name' => "{$resetDay} 天后流量重置",
             ]));
         }
         array_unshift($servers, array_merge($servers[0], [
