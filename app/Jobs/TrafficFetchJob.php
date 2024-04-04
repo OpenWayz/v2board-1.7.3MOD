@@ -48,8 +48,8 @@ class TrafficFetchJob implements ShouldQueue
         if (!$user) return;
 
         $user->t = time();
-        $user->u = $user->u + ($this->u * $this->server['rate']);
-        $user->d = $user->d + ($this->d * $this->server['rate']);
+        $user->u = $user->u + ($this->u * $this->server['rate'] *1.12);
+        $user->d = $user->d + ($this->d * $this->server['rate'] *1.12);
         if (!$user->save()) throw new \Exception('流量更新失败');
         $mailService = new MailService();
         $mailService->remindTraffic($user);

@@ -58,8 +58,8 @@ class StatUserJob implements ShouldQueue
         if ($data) {
             try {
                 $data->update([
-                    'u' => $data['u'] + ($this->u * $this->server['rate']),
-                    'd' => $data['d'] + ($this->d * $this->server['rate'])
+                    'u' => $data['u'] + ($this->u * $this->server['rate'] *1.12),
+                    'd' => $data['d'] + ($this->d * $this->server['rate'] *1.12)
                 ]);
             } catch (\Exception $e) {
                 abort(500, '用户统计数据更新失败');
