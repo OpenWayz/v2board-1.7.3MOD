@@ -203,11 +203,22 @@ class TicketController extends Controller
         $expired_at = date("Y-m-d h:m:s", $user->expired_at); // 到期时间
         $plan = $user->plan;
 
+        $ip_address = $_SERVER['REMOTE_ADDR']; // IP地址
+        $api_url = "http://ip-api.com/json/{$ip_address}?fields=520191&lang=zh-CN";
+        $response = file_get_contents($api_url);
+        $user_location = json_decode($response, true);
+        if ($user_location && $user_location['status'] === 'success') {
+            $location =  $user_location['city'] . ", " . $user_location['country'];
+        } else {
+            $location =  "无法确定用户地址";
+        }
+
         $TGmessage = "📮工单 #{$ticket->id}\n———————————————\n";
         $TGmessage .= "用户ID: `{$user_id}`\n";
+        $TGmessage .= "位置IP: `{$location} {$ip_address}`\n";
         if($user->plan){
-            $TGmessage .= "套餐与流量: \n`{$plan->name} {$remaining_traffic}/{$transfer_enable}`\n";
-            $TGmessage .= "到期时间: \n`{$expired_at}`\n";
+            $TGmessage .= "套餐: `{$plan->name} {$remaining_traffic}/{$transfer_enable}`\n";
+            $TGmessage .= "到期日: `{$expired_at}`\n";
         }else{
             $TGmessage .= "套餐与流量: \n`未订购任何套餐`\n";
         }

@@ -49,7 +49,7 @@ class ClientController extends Controller
         $userService = new UserService();
         $resetDay = $userService->getResetDay($user);
         array_unshift($servers, array_merge($servers[0], [
-            'name' => "网址发布页https://wuhen.org",
+            'name' => "网址发布页https://xxx.org",
         ]));
         array_unshift($servers, array_merge($servers[0], [
             'name' => "套餐到期：{$expiredDate}",
