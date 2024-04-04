@@ -200,10 +200,35 @@ class TicketController extends Controller
         $user = User::find($user_id)->load('plan');
         $transfer_enable = $this->getFlowData($user->transfer_enable); // 总流量
         $remaining_traffic = $this->getFlowData($user->transfer_enable - $user->u - $user->d); // 剩余流量
-        $expired_at = date("Y-m-d h:m:s", $user->expired_at); // 到期时间
+        $expired_at = date("Y-m-d h:i:s", $user->expired_at); // 到期时间
         $plan = $user->plan;
 
-        $ip_address = $_SERVER['REMOTE_ADDR']; // IP地址
+        $ip_address = '';// IP地址
+
+        // 检查 Cloudflare 提供的特定头
+        if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+            $ip_address = $_SERVER['HTTP_CF_CONNECTING_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+            $ip_address = $_SERVER['HTTP_X_REAL_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            // 如果特定头不存在，尝试解析 X-Forwarded-For 头
+            $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            // 遍历数组，寻找第一个不是内部地址的 IP 地址
+            foreach ($ips as $candidate) {
+                $candidate = trim($candidate);
+                // 检查 IP 地址是否是内部地址或保留地址
+                if (!filter_var($candidate, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                    $ip_address = $candidate;
+                    break;
+                }
+            }
+        }
+
+        // 如果未找到合适的 IP 地址，返回 REMOTE_ADDR
+        if (empty($ip_address)) {
+            $ip_address = $_SERVER['REMOTE_ADDR'];
+        }
+
         $api_url = "http://ip-api.com/json/{$ip_address}?fields=520191&lang=zh-CN";
         $response = file_get_contents($api_url);
         $user_location = json_decode($response, true);
