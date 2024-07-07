@@ -200,7 +200,7 @@ class TicketController extends Controller
         $user = User::find($user_id)->load('plan');
         $transfer_enable = $this->getFlowData($user->transfer_enable); // 总流量
         $remaining_traffic = $this->getFlowData($user->transfer_enable - $user->u - $user->d); // 剩余流量
-        $expired_at = date("Y-m-d h:i:s", $user->expired_at); // 到期时间
+        $expired_at = date("Y-m-d H:i:s", $user->expired_at); // 到期时间
         $plan = $user->plan;
 
         $ip_address = '';// IP地址
